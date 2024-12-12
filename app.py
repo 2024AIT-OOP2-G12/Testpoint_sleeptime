@@ -4,6 +4,7 @@ from routes import blueprints
 from routes.score_distribution_histogram import ScoreDistributionHistogram
 from routes.graphs import fetch_sleep_test_data, create_graph
 import plotly.graph_objects as go
+from routes.create_test_data import ScoreCounter
 
 
 app = Flask(__name__)
@@ -24,9 +25,11 @@ create_graph()
 @app.route('/')
 def index():
 
-    counts = [1, 2, 3, 4, 5, 6]
+    #counts = [1, 2, 3, 4, 5, 6]
+    score_counter = ScoreCounter()
+    score_label, test_data = score_counter.count_scores()
     histogram = ScoreDistributionHistogram()
-    histogram.create(counts)
+    histogram.create(test_data)
 
     graph = create_graph()
     return render_template('index.html', graph = graph)
