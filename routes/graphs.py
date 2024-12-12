@@ -26,9 +26,12 @@ def fetch_sleep_test_data():
         end_hour = int(end[:2])
         end_minute = int(end[3:])
         # 時間を分に換算
-        start = start_hour * 60 + start_minute
-        end = end_hour * 60 + end_minute
-
+        if start_hour < end_hour:
+            start = start_hour * 60 + start_minute
+            end = end_hour * 60 + end_minute
+        else:
+            start = start_hour * 60 + start_minute
+            end = (end_hour+24) * 60 + end_minute
         # 時間の差を計算
         duration = abs(start - end)
 
