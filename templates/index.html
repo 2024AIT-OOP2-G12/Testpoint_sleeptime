@@ -9,17 +9,19 @@
 </head>
 
 <body>
-    <h1>生徒情報</h1>
-    <ul>
-        <dev class="container">
-            <li><a href="{{ url_for('user.list') }}">生徒名簿･年齢</a></li>
-            <li><a href="{{ url_for('test.list') }}">テスト点数</a></li>
-            <li><a href="{{ url_for('sleep.list') }}">睡眠情報</a></li>
-        </dev>
-    </ul>
 
-    {{ graph | safe }}
+  <h1>生徒情報</h1>
+  <ul>
+    <div class="container">
+      <li><a href="{{ url_for('user.list') }}">生徒名簿･年齢</a></li>
+      <li><a href="{{ url_for('test.list') }}">テスト点数</a></li>
+      <li><a href="{{ url_for('sleep.list') }}">睡眠情報</a></li>
+    </div>
+  </ul>
 
+  <h1>成績分布ヒストグラム</h1>
+  <img src="{{ url_for('static', filename = 'graph_test.png')}}" alt="成績分布ヒストグラム">
+  {{ graph | safe }}
 
 </body>
 
