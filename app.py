@@ -1,11 +1,16 @@
 from flask import Flask, render_template
 from models import initialize_database
 from routes import blueprints
+<<<<<<< Updated upstream
 from routes.score_distribution_histogram import ScoreDistributionHistogram
 from routes.graphs import fetch_sleep_test_data, create_graph
 import plotly.graph_objects as go
 
 
+=======
+from routes.create_sleepgraph import plot_sleep_histogram
+import json
+>>>>>>> Stashed changes
 app = Flask(__name__)
 
 # データベースの初期化
@@ -30,6 +35,8 @@ def index():
 
     graph = create_graph()
     return render_template('index.html', graph = graph)
+
+
 
 
 

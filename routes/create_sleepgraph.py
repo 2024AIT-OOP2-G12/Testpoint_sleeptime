@@ -34,4 +34,7 @@ def plot_sleep_histogram():
     # グラフを表示
     fig.show()
 
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
