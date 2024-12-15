@@ -1,17 +1,12 @@
 from flask import Flask, render_template
 from models import initialize_database
 from routes import blueprints
-<<<<<<< Updated upstream
 from routes.score_distribution_histogram import ScoreDistributionHistogram
 from routes.graphs import fetch_sleep_test_data, create_graph
 import plotly.graph_objects as go
 from routes.create_test_data import ScoreCounter
+from routes.create_sleepgraph import create_sleep_histogram,fetch_sleep_data
 
-
-=======
-from routes.create_sleepgraph import plot_sleep_histogram
-import json
->>>>>>> Stashed changes
 app = Flask(__name__)
 
 # データベースの初期化
@@ -24,11 +19,13 @@ for blueprint in blueprints:
 
 fetch_sleep_test_data()
 create_graph()
-
+fetch_sleep_data()
+create_sleep_histogram()
 
 # ホームページのルート
 @app.route('/')
 def index():
+
 
     #counts = [1, 2, 3, 4, 5, 6]
     score_counter = ScoreCounter()
@@ -37,9 +34,9 @@ def index():
     histogram.create(test_data)
 
     graph = create_graph()
-    return render_template('index.html', graph = graph)
-
-
+    sleep_graph = create_sleep_histogram()
+    return render_template('index.html', graph = graph, sleep_graph = sleep_graph)
+    
 
 
 
