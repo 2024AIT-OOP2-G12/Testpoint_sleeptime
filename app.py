@@ -5,7 +5,7 @@ from routes.score_distribution_histogram import ScoreDistributionHistogram
 from routes.graphs import fetch_sleep_test_data, create_graph
 import plotly.graph_objects as go
 from routes.create_test_data import ScoreCounter
-from routes.create_sleepgraph import create_sleep_histogram,fetch_sleep_data
+from routes.create_sleepgraph import create_sleepgraph
 
 app = Flask(__name__)
 
@@ -19,8 +19,7 @@ for blueprint in blueprints:
 
 fetch_sleep_test_data()
 create_graph()
-fetch_sleep_data()
-create_sleep_histogram()
+create_sleepgraph()
 
 # ホームページのルート
 @app.route('/')
@@ -34,7 +33,7 @@ def index():
     histogram.create(test_data)
 
     graph = create_graph()
-    sleep_graph = create_sleep_histogram()
+    sleep_graph = create_sleepgraph()
     return render_template('index.html', graph = graph, sleep_graph = sleep_graph)
     
 

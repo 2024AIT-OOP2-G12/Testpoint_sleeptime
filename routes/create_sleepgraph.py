@@ -1,53 +1,32 @@
+from flask import Flask, render_template_string
 import plotly.graph_objects as go
+"""
+from routes.create_sleepdata import fetch_sleep_data
+"""
 
-def fetch_sleep_data():
-    """
-    仮の睡眠データを取得し、睡眠時間（時間単位）を計算して返します。
-    """
-    mock_sleep_data = [
-        {"user": "User1", "start": "23:00", "end": "07:00"},
-        {"user": "User2", "start": "22:30", "end": "06:30"},
-        {"user": "User3", "start": "00:00", "end": "10:00"},
-        {"user": "User4", "start": "01:00", "end": "10:00"},
-        {"user": "User5", "start": "23:30", "end": "10:30"},
-    ]
+app = Flask(__name__)
 
-    sleep_durations = []
-    for sleep in mock_sleep_data:
-        start_hour = int(sleep["start"][:2])
-        start_minute = int(sleep["start"][3:])
-        end_hour = int(sleep["end"][:2])
-        end_minute = int(sleep["end"][3:])
-
-        # 時間を分に換算
-        start = start_hour * 60 + start_minute
-        if end_hour < start_hour:
-            end = (end_hour + 24) * 60 + end_minute
-        else:
-            end = end_hour * 60 + end_minute
-
-        # 睡眠時間（分）を計算して時間に変換
-        duration = abs(end - start) / 60
-        sleep_durations.append(duration)
-
-    return sleep_durations
-
-
-def create_sleep_histogram():
-    """
-    ヒストグラムを作成し、HTML形式で返します。
+# 睡眠時間のヒストグラムを作成
+def create_sleepgraph():
     """
     sleep_data = fetch_sleep_data()
-
+    """
+    """if not sleep_data:
+        return """
+    
+    sleep_data = [6.5, 7.0, 8.0, 5.5, 7.5, 6.0, 8.5, 9.0, 6.5, 7.0, 5.0, 6.0, 7.5, 8.0, 5.5]
     # ヒストグラムの作成
     bin_size = 1  # 1時間ごとのビン
-    bins = [i for i in range(int(min(sleep_data)), int(max(sleep_data)) + 2, bin_size)]
+    #bins = [i for i in range(int(min(sleep_data)), int(max(sleep_data)) + 2, bin_size)]
 
     # ヒストグラムデータをプロット
     fig = go.Figure(
         data=go.Histogram(
             x=sleep_data,
-            xbins=dict(start=min(bins), end=max(bins), size=bin_size),
+            xbins=dict(
+            start=0,  # ヒストグラムの開始値
+            size=1    # ビン幅（1時間）
+        ),
             marker=dict(color="blue"),
         )
     )
@@ -67,4 +46,30 @@ def create_sleep_histogram():
     )
 
     # グラフをHTML文字列として返す
-    return fig.to_html(full_html=False)
+    htmlstr = fig.to_html(full_html=False)
+    return htmlstr
+
+
+# Flask ルート
+@app.route("/")
+def index():
+    graph_html = create_sleepgraph()
+    # HTML テンプレート
+    template = """
+    <!DOCTYPE html>
+    <html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <title>睡眠時間ヒストグラム</title>
+    </head>
+    <body>
+        <h1>睡眠時間と人数のヒストグラム</h1>
+        <div>{{ graph | safe }}</div>
+    </body>
+    </html>
+    """
+    return render_template_string(template, graph=graph_html)
+
+
+if __name__ == "__main__":
+    app.run(debug=True, port=8080)
