@@ -1,20 +1,16 @@
 from flask import Flask, render_template_string
 import plotly.graph_objects as go
-"""
 from routes.create_sleepdata import fetch_sleep_data
-"""
 
 app = Flask(__name__)
 
 # 睡眠時間のヒストグラムを作成
 def create_sleepgraph():
-    """
     sleep_data = fetch_sleep_data()
-    """
     """if not sleep_data:
         return """
     
-    sleep_data = [6.5, 7.0, 8.0, 5.5, 7.5, 6.0, 8.5, 9.0, 6.5, 7.0, 5.0, 6.0, 7.5, 8.0, 5.5]
+    """sleep_data = [6.5, 7.0, 8.0, 5.5, 7.5, 6.0, 8.5, 9.0, 6.5, 7.0, 5.0, 6.0, 7.5, 8.0, 5.5]"""
     # ヒストグラムの作成
     bin_size = 1  # 1時間ごとのビン
     #bins = [i for i in range(int(min(sleep_data)), int(max(sleep_data)) + 2, bin_size)]
